@@ -1,3 +1,6 @@
+# Database Schema
+
+```sql
 -- Create Products Table
 CREATE TABLE products (
     product_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -27,15 +30,15 @@ CREATE TABLE orders (
     FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE
 );
 
--- Create Order-Items Table
+-- Create Order Items Table
 CREATE TABLE order_items (
-order_item_id INT AUTO_INCREMENT PRIMARY KEY,
-order_id INT NOT NULL,
-product_id INT NOT NULL,
-quantity INT NOT NULL,
-price DECIMAL(10,2) NOT NULL,
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE,
-FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
+    order_item_id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
 );
