@@ -27,4 +27,9 @@ router.delete('/:customerId', async (req, res) => {
     await CustomerController.deleteCustomer(req, res);
 });
 
+// Get all customers
+router.get('/', async (req, res) => {
+    await CustomerController.getAllCustomers(req, res);
+});
+
 export default router;

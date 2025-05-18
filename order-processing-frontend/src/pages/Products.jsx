@@ -11,10 +11,14 @@ const ProductPage = () => {
   useEffect(() => {
     fetchProducts();
   }, []);
-
   const fetchProducts = async () => {
-    const data = await getProducts();
-    setProducts(data);
+    try {
+      const response = await getProducts();
+      setProducts(response.data || []);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+      setProducts([]);
+    }
   };
 
   const handleAddClick = () => {

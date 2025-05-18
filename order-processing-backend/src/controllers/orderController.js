@@ -31,6 +31,30 @@ export const getOrdersByCustomer = async (req, res) => {
     }
 };
 
+// Get a single order by order ID, including customer and items
+export const getOrderById = async (req, res) => {
+    const { orderId } = req.params;
+    try {
+        const order = await OrderModel.getOrderById(orderId);
+        if (!order) {
+            return res.status(404).json({ message: 'Order not found' });
+        }
+        res.status(200).json(order);
+    } catch (error) {
+        res.status(500).json({ message: 'Error retrieving order', error: error.message });
+    }
+};
+
+// Get all orders
+export const getAllOrders = async (req, res) => {
+    try {
+        const orders = await OrderModel.getAllOrders();
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({ message: 'Error retrieving orders', error: error.message });
+    }
+};
+
 // Delete order by ID
 export const deleteOrder = async (req, res) => {
     const { orderId } = req.params;

@@ -51,3 +51,14 @@ export const deleteCustomer = (customerId) => {
         });
     });
 };
+
+// Get all customers
+export const getAllCustomers = () => {
+    return new Promise((resolve, reject) => {
+        const query = 'SELECT * FROM customers';
+        connection.query(query, (err, results) => {
+            if (err) return reject(err);
+            resolve(results);
+        });
+    });
+};

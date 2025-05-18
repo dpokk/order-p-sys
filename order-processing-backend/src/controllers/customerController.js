@@ -59,3 +59,13 @@ export const deleteCustomer = async (req, res) => {
         res.status(500).json({ message: 'Error deleting customer', error: error.message });
     }
 };
+
+// Get all customers
+export const getAllCustomers = async (req, res) => {
+    try {
+        const customers = await CustomerModel.getAllCustomers();
+        res.status(200).json(customers);
+    } catch (error) {
+        res.status(500).json({ message: 'Error retrieving customers', error: error.message });
+    }
+};

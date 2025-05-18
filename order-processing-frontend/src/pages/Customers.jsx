@@ -11,10 +11,14 @@ const CustomerPage = () => {
   useEffect(() => {
     fetchCustomers();
   }, []);
-
   const fetchCustomers = async () => {
-    const data = await getCustomers();
-    setCustomers(data);
+    try {
+      const response = await getCustomers();
+      setCustomers(response.data || []);
+    } catch (error) {
+      console.error('Error fetching customers:', error);
+      setCustomers([]);
+    }
   };
 
   const handleAddClick = () => {
@@ -43,11 +47,12 @@ const CustomerPage = () => {
     setIsModalOpen(false);
     fetchCustomers();
   };
-
   const columns = [
     { header: 'ID', accessor: 'customer_id' },
     { header: 'Name', accessor: 'name' },
     { header: 'Email', accessor: 'email' },
+    { header: 'Phone', accessor: 'phone' },
+    { header: 'Created At', accessor: 'created_at' },
     { header: 'Phone', accessor: 'phone' },
     { header: 'Created At', accessor: 'created_at' },
   ];
@@ -59,7 +64,7 @@ const CustomerPage = () => {
 
   return (
     <div className="flex flex-col">
-      <div className="px-6 py-4 flex justify-between items-center">
+      <div className="px-6 py-4 flex justify-between items-center border-b border-[#dedcff]">
         <h1 className="text-2xl font-bold text-[#2f27ce]">Customers Management</h1>
         <button
           onClick={handleAddClick}
@@ -71,12 +76,14 @@ const CustomerPage = () => {
       <div className="px-6">
         <Table columns={columns} data={customers} actions={actions} />
       </div>
-      <CustomerForm
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSubmit={handleFormSubmit}
-        initialData={editingCustomer}
-      />
+      {isModalOpen && (
+        <CustomerForm
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={handleFormSubmit}
+          initialData={editingCustomer}
+        />
+      )}
     </div>
   );
 };
