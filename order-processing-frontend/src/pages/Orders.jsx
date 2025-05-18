@@ -136,7 +136,7 @@ const Orders = () => {
           + Add Order
         </button>
       </div>
-      <div className="px-6">
+      <div className="px-6 py-6">
         <Table 
           columns={columns} 
           data={orders} 

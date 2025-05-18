@@ -70,7 +70,7 @@ const ProductPage = () => {
           + Add Product
         </button>
       </div>
-      <div className="px-6">
+      <div className="px-6 py-6">
         <Table columns={columns} data={products} actions={actions} />
       </div>
       {isModalOpen && (

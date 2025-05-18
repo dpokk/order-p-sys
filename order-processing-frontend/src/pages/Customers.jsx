@@ -52,9 +52,9 @@ const CustomerPage = () => {
     { header: 'Name', accessor: 'name' },
     { header: 'Email', accessor: 'email' },
     { header: 'Phone', accessor: 'phone' },
-    { header: 'Created At', accessor: 'created_at' },
-    { header: 'Phone', accessor: 'phone' },
-    { header: 'Created At', accessor: 'created_at' },
+    { header: 'Created At', accessor: 'created_at' }
+    
+    
   ];
 
   const actions = [
@@ -73,7 +73,7 @@ const CustomerPage = () => {
           + Add Customer
         </button>
       </div>
-      <div className="px-6">
+      <div className="px-6 py-6">
         <Table columns={columns} data={customers} actions={actions} />
       </div>
       {isModalOpen && (

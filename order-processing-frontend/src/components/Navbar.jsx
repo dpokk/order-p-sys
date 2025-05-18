@@ -6,7 +6,7 @@ const Navbar = ({ onToggleSidebar }) => {
       <button className="md:hidden" onClick={onToggleSidebar}>
         <Menu size={24} color="#2f27ce" />
       </button>
-      <h1 className="text-xl font-semibold text-[#2f27ce]">Order Processing Admin</h1>
+      <h1 className="text-2xl font-bold text-[#2f27ce] px-6">Order Processing System</h1>
       <div className="flex items-center gap-3">
         {/* <div className="w-8 h-8 bg-[#dedcff] rounded-full" /> */}
       </div>
