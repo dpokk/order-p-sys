@@ -1,6 +1,6 @@
-const Table = ({ columns, data, actions }) => {
+const Table = ({ columns, data, actions, className = '', emptyMessage = 'No records found.' }) => {
   return (
-    <div className="overflow-hidden bg-[#fbfbfe] rounded-lg shadow border border-[#dedcff]">
+    <div className={`overflow-hidden bg-[#fbfbfe] rounded-lg shadow border border-[#dedcff] ${className}`}>
       <div className="overflow-x-auto w-full">
         <table className="w-full table-fixed">
           <colgroup>
@@ -20,7 +20,7 @@ const Table = ({ columns, data, actions }) => {
                 </th>
               ))}
               {actions && (
-                <th className="px-6 py-3 text-[#2f27ce] border-b border-[#dedcff]">Actions</th>
+                <th className="px-6 py-3 text-[#2f27ce] border-b border-[#dedcff] text-left">Actions</th>
               )}
             </tr>
           </thead>
@@ -31,7 +31,7 @@ const Table = ({ columns, data, actions }) => {
                   colSpan={columns.length + (actions ? 1 : 0)}
                   className="text-center py-8 text-[#433bff] bg-[#fbfbfe]"
                 >
-                  No records found.
+                  {emptyMessage}
                 </td>
               </tr>
             ) : (
@@ -46,22 +46,27 @@ const Table = ({ columns, data, actions }) => {
                   {columns.map((col) => (
                     <td
                       key={col.accessor}
-                      className="px-6 py-3 text-sm text-[#050315] truncate"
+                      className="px-6 py-3 text-sm text-[#050315]"
                     >
-                      {col.render ? col.render(row[col.accessor], row) : row[col.accessor]}
+                      <div className="truncate">
+                        {col.render ? col.render(row[col.accessor], row) : row[col.accessor]}
+                      </div>
                     </td>
                   ))}
                   {actions && (
-                    <td className="px-6 py-3 flex gap-2">
-                      {actions.map((action, i) => (
-                        <button
-                          key={i}
-                          className="text-sm font-medium px-3 py-1 rounded bg-[#2f27ce] text-[#fbfbfe] hover:bg-[#433bff] transition-colors"
-                          onClick={() => action.onClick(row)}
-                        >
-                          {action.label}
-                        </button>
-                      ))}
+                    <td className="px-6 py-3">
+                      <div className="flex gap-2">
+                        {actions.map((action, i) => (
+                          <button
+                            key={i}
+                            className={action.className || 
+                              "text-sm font-medium px-3 py-1 rounded bg-[#2f27ce] text-[#fbfbfe] hover:bg-[#433bff] transition-colors"}
+                            onClick={() => action.onClick(row)}
+                          >
+                            {action.label}
+                          </button>
+                        ))}
+                      </div>
                     </td>
                   )}
                 </tr>

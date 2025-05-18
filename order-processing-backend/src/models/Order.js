@@ -69,13 +69,12 @@ export const getOrderById = (orderId) => {
 
 // Get all orders with customer details
 export const getAllOrders = () => {
-    return new Promise((resolve, reject) => {
-        const query = `
-            SELECT o.order_id, o.customer_id, o.total_amount, o.created_at,
-                   c.name as customer_name, o.status 
+    return new Promise((resolve, reject) => {        const query = `
+            SELECT o.order_id, o.customer_id, o.order_date, o.total_amount, o.status,
+                   c.name as customer_name
             FROM orders o
             JOIN customers c ON o.customer_id = c.customer_id
-            ORDER BY o.created_at DESC
+            ORDER BY o.order_date DESC
         `;
         connection.query(query, (err, results) => {
             if (err) return reject(err);

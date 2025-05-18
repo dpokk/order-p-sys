@@ -1,52 +1,157 @@
-// src/pages/Orders.jsx
-
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { getOrders } from "../services/orderService";
-import Table from "../components/Table";
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Table from '../components/Table';
+import OrderForm from '../components/OrderForm';
+import { getOrders, createOrder } from '../services/orderService';
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [expandedOrderId, setExpandedOrderId] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const response = await getOrders();
-        setOrders(response.data);
-      } catch (error) {
-        console.error("Error fetching orders:", error);
-      }
-    };
     fetchOrders();
   }, []);
 
+  const fetchOrders = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const response = await getOrders();
+      setOrders(response.data || []);
+    } catch (error) {
+      console.error('Error fetching orders:', error);
+      setError(error.message || 'Failed to fetch orders');
+      setOrders([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleCreateOrder = async (orderData) => {
+    try {
+      await createOrder(orderData);
+      setIsModalOpen(false);
+      fetchOrders();
+    } catch (error) {
+      console.error('Error creating order:', error);
+      // You might want to show this error to the user through a toast notification
+    }
+  };
+
+  const handleViewDetails = (order) => {
+    navigate(`/orders/${order.order_id}`);
+  };
+
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+    }).format(amount);
+  };
+
+  const formatDate = (date) => {
+    return new Intl.DateTimeFormat('en-IN', {
+      dateStyle: 'medium',
+      timeStyle: 'short',
+    }).format(new Date(date));
+  };
+
   const columns = [
-    { header: "Order ID", accessor: "order_id" },
-    { header: "Customer", accessor: "customer_name" },
-    { header: "Total Amount", accessor: "total_amount" },
-    { header: "Status", accessor: "status" },
-    {
-      header: "Actions",
-      accessor: "actions",
-      render: (value, order) => (
-        <Link
-          to={`/orders/${order.order_id}`}
-          className="text-blue-500 hover:text-blue-700"
-        >
-          View Details
-        </Link>
-      ),
+    { 
+      header: 'Order ID', 
+      accessor: 'order_id',
+      render: (value) => `#${value.toString().padStart(5, '0')}`
+    },
+    { header: 'Customer', accessor: 'customer_name' },
+    { 
+      header: 'Total Amount', 
+      accessor: 'total_amount', 
+      render: (value) => formatCurrency(value)
+    },
+    { 
+      header: 'Status', 
+      accessor: 'status',
+      render: (value) => (
+        <span className={`px-2 py-1 rounded text-sm ${
+          value === 'placed' 
+            ? 'bg-green-100 text-green-800' 
+            : 'bg-red-100 text-red-800'
+        }`}>
+          {value.charAt(0).toUpperCase() + value.slice(1)}
+        </span>
+      )
+    },
+    { 
+      header: 'Order Date', 
+      accessor: 'order_date',
+      render: (value) => formatDate(value)
     },
   ];
 
+  const actions = [
+    { 
+      label: 'View Details', 
+      onClick: handleViewDetails,
+      className: 'text-white hover:text-grey-200'
+    }
+  ];
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2f27ce]"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="text-red-600 text-center">
+          <p className="text-xl font-semibold mb-2">Error</p>
+          <p>{error}</p>
+          <button
+            onClick={fetchOrders}
+            className="mt-4 px-4 py-2 bg-[#2f27ce] text-white rounded hover:bg-[#433bff] transition-colors"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col">
-      <div className="px-6 py-4">
+      <div className="px-6 py-4 flex justify-between items-center border-b border-[#dedcff]">
         <h1 className="text-2xl font-bold text-[#2f27ce]">Orders Management</h1>
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="px-4 py-2 bg-[#2f27ce] text-white rounded hover:bg-[#433bff] transition-colors"
+        >
+          + Add Order
+        </button>
       </div>
       <div className="px-6">
-        <Table columns={columns} data={orders} />
+        <Table 
+          columns={columns} 
+          data={orders} 
+          actions={actions} 
+          className="w-full"
+          emptyMessage="No orders found"
+        />
       </div>
+      {isModalOpen && (
+        <OrderForm
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={handleCreateOrder}
+        />
+      )}
     </div>
   );
 };
