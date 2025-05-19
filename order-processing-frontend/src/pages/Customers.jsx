@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import Table from '../components/Table';
 import CustomerForm from '../components/CustomerForm';
+import CustomerOrderHistoryModal from '../components/CustomerOrderHistoryModal';
 import { getCustomers, createCustomer, updateCustomer, deleteCustomer } from '../services/customerService';
 
 const CustomerPage = () => {
   const [customers, setCustomers] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
   const [editingCustomer, setEditingCustomer] = useState(null);
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
 
   useEffect(() => {
     fetchCustomers();
@@ -47,19 +50,35 @@ const CustomerPage = () => {
     setIsModalOpen(false);
     fetchCustomers();
   };
+  const handleViewHistory = (customer) => {
+    setSelectedCustomer(customer);
+    setIsHistoryModalOpen(true);
+  };
+
   const columns = [
-    { header: 'ID', accessor: 'customer_id' },
+    // { header: 'ID', accessor: 'customer_id' },
     { header: 'Name', accessor: 'name' },
     { header: 'Email', accessor: 'email' },
     { header: 'Phone', accessor: 'phone' },
     { header: 'Created At', accessor: 'created_at' }
-    
-    
   ];
 
   const actions = [
-    { label: 'Edit', onClick: handleEditClick },
-    { label: 'Delete', onClick: handleDeleteClick },
+    {
+      label: 'View Orders',
+      onClick: handleViewHistory,
+      className: 'text-sm font-medium px-3 py-1 rounded bg-[#2f27ce] text-white rounded hover:bg-[#433bff] transition-colors'
+    },
+    {
+      label: 'Edit',
+      onClick: handleEditClick,
+      className: 'text-sm font-medium px-3 py-1 rounded bg-green-600 text-white hover:bg-green-700 transition-colors'
+    },
+    {
+      label: 'Delete',
+      onClick: handleDeleteClick,
+      className: 'text-sm font-medium px-3 py-1 rounded bg-red-600 text-white hover:bg-red-700 transition-colors'
+    }
   ];
 
   return (
@@ -73,7 +92,7 @@ const CustomerPage = () => {
           + Add Customer
         </button>
       </div>
-      <div className="px-6 py-6">
+      <div className="px-2 py-6">
         <Table columns={columns} data={customers} actions={actions} />
       </div>
       {isModalOpen && (
@@ -82,6 +101,14 @@ const CustomerPage = () => {
           onClose={() => setIsModalOpen(false)}
           onSubmit={handleFormSubmit}
           initialData={editingCustomer}
+        />
+      )}
+      {isHistoryModalOpen && selectedCustomer && (
+        <CustomerOrderHistoryModal
+          isOpen={isHistoryModalOpen}
+          onClose={() => setIsHistoryModalOpen(false)}
+          customerId={selectedCustomer.customer_id}
+          customerName={selectedCustomer.name}
         />
       )}
     </div>

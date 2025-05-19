@@ -49,7 +49,7 @@ const ProductPage = () => {
   };
 
   const columns = [
-    { header: 'ID', accessor: 'product_id' },
+    // { header: 'ID', accessor: 'product_id' },
     { header: 'Name', accessor: 'name' },
     { header: 'Price', accessor: 'price', render: (value) => `₹${value}` },
     { header: 'Created At', accessor: 'created_at' },

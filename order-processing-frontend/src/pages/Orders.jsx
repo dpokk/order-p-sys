@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Table from '../components/Table';
 import OrderForm from '../components/OrderForm';
+import OrderTotalModal from '../components/OrderTotalModal';
 import { getOrders, createOrder } from '../services/orderService';
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isTotalModalOpen, setIsTotalModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [expandedOrderId, setExpandedOrderId] = useState(null);
@@ -129,12 +131,20 @@ const Orders = () => {
     <div className="flex flex-col">
       <div className="px-6 py-4 flex justify-between items-center border-b border-[#dedcff]">
         <h1 className="text-2xl font-bold text-[#2f27ce]">Orders Management</h1>
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className="px-4 py-2 bg-[#2f27ce] text-white rounded hover:bg-[#433bff] transition-colors"
-        >
-          + Add Order
-        </button>
+        <div className="space-x-4">
+          <button
+            onClick={() => setIsTotalModalOpen(true)}
+            className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+          >
+            View Orders Total
+          </button>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="px-4 py-2 bg-[#2f27ce] text-white rounded hover:bg-[#433bff]"
+          >
+            + Add Order
+          </button>
+        </div>
       </div>
       <div className="px-6 py-6">
         <Table 
@@ -152,6 +162,10 @@ const Orders = () => {
           onSubmit={handleCreateOrder}
         />
       )}
+      <OrderTotalModal
+        isOpen={isTotalModalOpen}
+        onClose={() => setIsTotalModalOpen(false)}
+      />
     </div>
   );
 };

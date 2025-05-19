@@ -86,3 +86,45 @@ export const deleteOrder = async (req, res) => {
         res.status(500).json({ message: 'Error deleting order', error: error.message });
     }
 };
+
+// Cancel order by ID
+export const cancelOrder = async (req, res) => {
+    const { orderId } = req.params;
+    try {
+        const result = await OrderModel.cancelOrder(orderId);
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Order not found' });
+        }
+        res.json({ message: 'Order cancelled successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error cancelling order', error: error.message });
+    }
+};
+
+// Get customer order summary
+export const getCustomerOrderSummary = async (req, res) => {
+    const { customerId } = req.params;
+    try {
+        const summary = await OrderModel.getCustomerOrderSummary(customerId);
+        res.json(summary);
+    } catch (error) {
+        res.status(500).json({ message: 'Error getting customer order summary', error: error.message });
+    }
+};
+
+// Get total cost of all orders
+export const getOrdersTotalCost = async (req, res) => {
+    try {
+        const totals = await OrderModel.getTotalOrdersCost();
+        if (!totals) {
+            return res.status(404).json({ message: 'No orders found' });
+        }
+        res.json(totals);
+    } catch (error) {
+        console.error('Error getting orders total:', error);
+        res.status(500).json({ 
+            message: 'Error calculating orders total', 
+            error: error.message 
+        });
+    }
+};
