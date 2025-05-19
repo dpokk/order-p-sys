@@ -8,6 +8,14 @@ export const formatCurrency = (value) => {
   }).format(value);
 };
 
+// Format a date consistently
+export const formatDate = (date) => {
+  return new Intl.DateTimeFormat('en-IN', {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  }).format(new Date(date));
+};
+
 // Capitalize first letter of a string
 export const capitalize = (str) => {
   if (!str) return "";

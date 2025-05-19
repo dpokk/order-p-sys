@@ -14,13 +14,13 @@ const Table = ({ columns, data, actions, className = '', emptyMessage = 'No reco
               {columns.map((col) => (
                 <th
                   key={col.accessor}
-                  className="px-6 py-3 text-left text-sm font-semibold text-[#2f27ce] border-b border-[#dedcff]"
+                  className="px-2 py-3 text-left text-sm font-semibold text-[#2f27ce] border-b border-[#dedcff]"
                 >
                   {col.header}
                 </th>
               ))}
               {actions && (
-                <th className="px-6 py-3 text-[#2f27ce] border-b border-[#dedcff] text-left">Actions</th>
+                <th className="px-2 py-3 text-[#2f27ce] border-b border-[#dedcff] text-left">Actions</th>
               )}
             </tr>
           </thead>
@@ -46,7 +46,7 @@ const Table = ({ columns, data, actions, className = '', emptyMessage = 'No reco
                   {columns.map((col) => (
                     <td
                       key={col.accessor}
-                      className="px-6 py-3 text-sm text-[#050315]"
+                      className="px-2 py-3 text-sm text-[#050315]"
                     >
                       <div className="truncate">
                         {col.render ? col.render(row[col.accessor], row) : row[col.accessor]}
@@ -54,7 +54,7 @@ const Table = ({ columns, data, actions, className = '', emptyMessage = 'No reco
                     </td>
                   ))}
                   {actions && (
-                    <td className="px-6 py-3">
+                    <td className="px-2 py-3">
                       <div className="flex gap-2">
                         {actions.map((action, i) => (
                           <button

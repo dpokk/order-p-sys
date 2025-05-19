@@ -55,12 +55,19 @@ const CustomerPage = () => {
     setIsHistoryModalOpen(true);
   };
 
+  const formatDate = (date) => {
+  return new Intl.DateTimeFormat('en-IN', {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  }).format(new Date(date));
+};
+
   const columns = [
     // { header: 'ID', accessor: 'customer_id' },
     { header: 'Name', accessor: 'name' },
     { header: 'Email', accessor: 'email' },
     { header: 'Phone', accessor: 'phone' },
-    { header: 'Created At', accessor: 'created_at' }
+    { header: 'Created At', accessor: 'created_at', render: (value) => formatDate(value) }
   ];
 
   const actions = [

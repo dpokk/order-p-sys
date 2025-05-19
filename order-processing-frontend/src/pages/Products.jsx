@@ -48,11 +48,20 @@ const ProductPage = () => {
     fetchProducts();
   };
 
+  const formatDate = (date) => {
+    return new Intl.DateTimeFormat('en-IN', {
+      dateStyle: 'medium',
+      timeStyle: 'short',
+    }).format(new Date(date));
+  };
+
+  
+
   const columns = [
     // { header: 'ID', accessor: 'product_id' },
     { header: 'Name', accessor: 'name' },
     { header: 'Price', accessor: 'price', render: (value) => `₹${value}` },
-    { header: 'Created At', accessor: 'created_at' },
+    { header: 'Created At', accessor: 'created_at', render: (value) => formatDate(value) },
   ];
 
   const actions = [
