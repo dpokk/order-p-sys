@@ -44,9 +44,9 @@ export const deleteOrder = (orderId) => {
 
 // Get a single order by order ID, including customer and items
 export const getOrderById = (orderId) => {
-    return new Promise((resolve, reject) => {
-        const orderQuery = `
-            SELECT o.order_id, o.customer_id, o.total_amount, o.created_at, c.name AS customer_name, c.email AS customer_email, c.phone AS customer_phone
+    return new Promise((resolve, reject) => {        const orderQuery = `
+            SELECT o.order_id, o.customer_id, o.total_amount, o.order_date, o.status,
+                   c.name AS customer_name, c.email AS customer_email, c.phone AS customer_phone
             FROM orders o
             JOIN customers c ON o.customer_id = c.customer_id
             WHERE o.order_id = ?
