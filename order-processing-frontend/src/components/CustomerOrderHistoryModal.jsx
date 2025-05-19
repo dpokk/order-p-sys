@@ -12,7 +12,7 @@ const CustomerOrderHistoryModal = ({ isOpen, onClose, customerId, customerName }
   useEffect(() => {
     if (isOpen && customerId) {
       fetchOrderHistory();
-    }
+    }  
   }, [isOpen, customerId]);
 
   const fetchOrderHistory = async () => {
@@ -76,13 +76,13 @@ const CustomerOrderHistoryModal = ({ isOpen, onClose, customerId, customerName }
             </thead>
             <tbody>
               {orderHistory.map((order) => (
-                <tr key={order.order_id} className="border-b">
+                <tr key={order.order_id} className="border-b text-xs">
                   <td className="py-2">#{order.order_id.toString().padStart(5, '0')}</td>
                   <td className="py-2">{new Date(order.order_date).toLocaleDateString()}</td>
                   <td className="text-right py-2">{order.total_items}</td>
                   <td className="text-right py-2">{formatCurrency(order.total_amount)}</td>
                   <td className="text-center py-2">
-                    <span className={`px-2 py-1 rounded text-sm ${
+                    <span className={`px-2 py-1 rounded text-xs ${
                       order.status === 'placed' 
                         ? 'bg-green-100 text-green-800' 
                         : 'bg-red-100 text-red-800'
@@ -93,7 +93,7 @@ const CustomerOrderHistoryModal = ({ isOpen, onClose, customerId, customerName }
                   <td className="text-right py-2">
                     <button
                       onClick={() => handleViewOrder(order.order_id)}
-                      className="text-blue-600 hover:text-blue-800"
+                      className="text-white hover:text-gray-200"
                     >
                       View
                     </button>

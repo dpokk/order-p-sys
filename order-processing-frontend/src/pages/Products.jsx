@@ -70,8 +70,8 @@ const ProductPage = () => {
   ];
 
   return (    <div className="flex flex-col">
-      <div className="px-6 py-4 flex justify-between items-center border-b border-[#dedcff]">
-        <h1 className="text-2xl font-bold text-[#2f27ce]">Products Management</h1>
+      <div className="px-6 pb-6 flex justify-between items-center border-b border-[#dedcff]">
+        <h1 className="text-xl font-semibold ">PRODUCT MANAGEMENT</h1>
         <button
           onClick={handleAddClick}
           className="px-4 py-2 bg-[#2f27ce] text-white rounded hover:bg-[#433bff] transition-colors"

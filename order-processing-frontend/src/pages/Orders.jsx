@@ -129,8 +129,8 @@ const Orders = () => {
 
   return (
     <div className="flex flex-col">
-      <div className="px-6 py-4 flex justify-between items-center border-b border-[#dedcff]">
-        <h1 className="text-2xl font-bold text-[#2f27ce]">Orders Management</h1>
+      <div className="px-6 pb-6 flex justify-between items-center border-b border-[#dedcff]">
+        <h1 className="text-xl font-semibold ">ORDER MANAGEMENT</h1>
         <div className="space-x-4">
           <button
             onClick={() => setIsTotalModalOpen(true)}

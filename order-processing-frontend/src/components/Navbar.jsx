@@ -2,15 +2,19 @@ import { Menu } from 'lucide-react';
 
 const Navbar = ({ onToggleSidebar }) => {
   return (
-    <header className="h-16 bg-[#fbfbfe] shadow-md flex items-center justify-between px-4 fixed top-0 left-0 right-0 z-10 border-b border-[#dedcff]">
-      <button className="md:hidden" onClick={onToggleSidebar}>
-        <Menu size={24} color="#2f27ce" />
-      </button>
-      <h1 className="text-2xl font-bold text-[#2f27ce] px-6">Order Processing System</h1>
-      <div className="flex items-center gap-3">
-        {/* <div className="w-8 h-8 bg-[#dedcff] rounded-full" /> */}
+    <nav className="sticky top-0 z-40 bg-white border-b border-border">
+      <div className="flex items-center justify-between h-16 px-6 py-10">
+        <div className="flex items-center gap-4">
+          <button
+            onClick={onToggleSidebar}
+            className="p-2 text-text-light hover:text-text hover:bg-surface rounded-lg lg:hidden"
+          >
+            <Menu className="w-6 h-6" />
+          </button>
+          <h1 className="text-2xl pl-6 font-semibold">ORDER PROCESSING SYSTEM</h1>
+        </div>
       </div>
-    </header>
+    </nav>
   );
 };
 

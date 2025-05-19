@@ -74,24 +74,24 @@ const CustomerPage = () => {
     {
       label: 'View Orders',
       onClick: handleViewHistory,
-      className: 'text-sm font-medium px-3 py-1 rounded bg-[#2f27ce] text-white rounded hover:bg-[#433bff] transition-colors'
+      className: 'text-sm font-medium px-2 py-1 rounded bg-[#2f27ce] text-white hover:bg-[#433bff] transition-colors whitespace-nowrap'
     },
     {
       label: 'Edit',
       onClick: handleEditClick,
-      className: 'text-sm font-medium px-3 py-1 rounded bg-green-600 text-white hover:bg-green-700 transition-colors'
+      className: 'text-sm font-medium px-2 py-1 rounded bg-green-600 text-white hover:bg-green-700 transition-colors whitespace-nowrap'
     },
     {
       label: 'Delete',
       onClick: handleDeleteClick,
-      className: 'text-sm font-medium px-3 py-1 rounded bg-red-600 text-white hover:bg-red-700 transition-colors'
+      className: 'text-sm font-medium px-2 py-1 rounded bg-red-600 text-white hover:bg-red-700 transition-colors whitespace-nowrap'
     }
   ];
 
   return (
     <div className="flex flex-col">
-      <div className="px-6 py-4 flex justify-between items-center border-b border-[#dedcff]">
-        <h1 className="text-2xl font-bold text-[#2f27ce]">Customers Management</h1>
+      <div className="px-6 pb-6 flex justify-between items-center border-b border-[#dedcff]">
+        <h1 className="text-xl font-semibold">CUSTOMER MANAGEMENT</h1>
         <button
           onClick={handleAddClick}
           className="px-4 py-2 bg-[#2f27ce] text-white rounded hover:bg-[#433bff] transition-colors"

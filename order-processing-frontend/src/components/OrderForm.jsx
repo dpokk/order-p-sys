@@ -98,13 +98,13 @@ const OrderForm = ({ isOpen, onClose, onSubmit }) => {
     >
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-medium mb-1 text-[#2f27ce]">
+          <label className="block text-sm font-medium mb-1">
             Select Customer
           </label>
           <select
             value={formData.customerId}
             onChange={handleCustomerChange}
-            className="w-full border px-3 py-2 rounded bg-[#dedcff] text-[#050315] border-[#2f27ce]"
+            className="w-full border px-3 py-2 rounded text-[#050315] "
           >
             <option value="">-- Select Customer --</option>
             {customers.map(customer => (
@@ -116,7 +116,7 @@ const OrderForm = ({ isOpen, onClose, onSubmit }) => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1 text-[#2f27ce]">
+          <label className="block text-sm font-medium mb-1">
             Add Items
           </label>
           <div className="space-y-2 max-h-60 overflow-y-auto">
