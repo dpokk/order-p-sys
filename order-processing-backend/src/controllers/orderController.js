@@ -1,19 +1,37 @@
 import * as OrderModel from '../models/Order.js';
+import * as OrderItemModel from '../models/OrderItem.js';
 
 // Create a new order
 export const createOrder = async (req, res) => {
-    const { customerId } = req.body;
+    const { customerId, items } = req.body;
+    
     try {
+        // Validate required fields
         if (!customerId) {
             return res.status(400).json({ message: 'Customer ID is required' });
         }
+        if (!items || !Array.isArray(items) || items.length === 0) {
+            return res.status(400).json({ message: 'Order items are required' });
+        }
 
-        // Don't pass totalAmount. It starts with 0.00
-        const result = await OrderModel.createOrder(customerId);
+        // Create the order with initial total amount
+        const result = await OrderModel.createOrder(customerId, items);
+        const orderId = result.insertId;
 
-        res.status(201).json({ message: 'Order created successfully', result });
+        // Add each item to the order
+        const itemPromises = items.map(item => 
+            OrderItemModel.addOrderItem(orderId, item.product_id, item.quantity)
+        );
+        await Promise.all(itemPromises);        res.status(201).json({
+            message: 'Order created successfully',
+            orderId
+        });
     } catch (error) {
-        res.status(500).json({ message: 'Error creating order', error: error.message });
+        console.error('Error in createOrder:', error);
+        res.status(500).json({ 
+            message: 'Error creating order', 
+            error: error.message 
+        });
     }
 };
 

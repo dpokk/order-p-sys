@@ -4,13 +4,12 @@ import { getCustomers } from '../services/customerService';
 import { getProducts } from '../services/productService';
 
 const OrderForm = ({ isOpen, onClose, onSubmit }) => {
+  const [customers, setCustomers] = useState([]);
+  const [products, setProducts] = useState([]);
   const [formData, setFormData] = useState({
     customerId: '',
     items: []
   });
-  const [customers, setCustomers] = useState([]);
-  const [products, setProducts] = useState([]);
-  const [selectedItems, setSelectedItems] = useState([]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -35,24 +34,33 @@ const OrderForm = ({ isOpen, onClose, onSubmit }) => {
     setFormData(prev => ({ ...prev, customerId: e.target.value }));
   };
 
-  const handleQuantityChange = (productId, quantity) => {
-    const newItems = [...selectedItems];
-    const existingIndex = newItems.findIndex(item => item.productId === productId);
-    
-    if (quantity > 0) {
-      if (existingIndex >= 0) {
-        newItems[existingIndex].quantity = quantity;
+  const handleQuantityChange = (productId, quantity, price) => {
+    setFormData(prev => {
+      const newItems = [...prev.items];
+      const existingIndex = newItems.findIndex(item => item.productId === productId);
+      
+      if (quantity > 0) {
+        const productDetails = products.find(p => p.product_id === parseInt(productId));
+        if (existingIndex >= 0) {
+          newItems[existingIndex] = {
+            ...newItems[existingIndex],
+            quantity: parseInt(quantity)
+          };
+        } else {
+          newItems.push({
+            productId: parseInt(productId),
+            quantity: parseInt(quantity),
+            price: productDetails.price
+          });
+        }
       } else {
-        newItems.push({ productId, quantity });
+        if (existingIndex >= 0) {
+          newItems.splice(existingIndex, 1);
+        }
       }
-    } else {
-      if (existingIndex >= 0) {
-        newItems.splice(existingIndex, 1);
-      }
-    }
-    
-    setSelectedItems(newItems);
-    setFormData(prev => ({ ...prev, items: newItems }));
+      
+      return { ...prev, items: newItems };
+    });
   };
 
   const handleSubmit = () => {
@@ -60,11 +68,25 @@ const OrderForm = ({ isOpen, onClose, onSubmit }) => {
       alert('Please select a customer');
       return;
     }
-    if (selectedItems.length === 0) {
-      alert('Please add at least one item');
+
+    if (formData.items.length === 0) {
+      alert('Please add at least one item to the order');
       return;
     }
-    onSubmit(formData);
+
+    onSubmit({
+      customerId: parseInt(formData.customerId),
+      items: formData.items.map(item => ({
+        product_id: item.productId,
+        quantity: item.quantity,
+        price: item.price
+      }))
+    });
+  };
+
+  const getItemQuantity = (productId) => {
+    const item = formData.items.find(i => i.productId === productId);
+    return item ? item.quantity : '';
   };
 
   return (
@@ -104,8 +126,8 @@ const OrderForm = ({ isOpen, onClose, onSubmit }) => {
                 <input
                   type="number"
                   min="0"
-                  value={selectedItems.find(item => item.productId === product.product_id)?.quantity || ''}
-                  onChange={(e) => handleQuantityChange(product.product_id, parseInt(e.target.value) || 0)}
+                  value={getItemQuantity(product.product_id)}
+                  onChange={(e) => handleQuantityChange(product.product_id, e.target.value, product.price)}
                   className="w-20 px-2 py-1 border rounded"
                   placeholder="Qty"
                 />

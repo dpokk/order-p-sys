@@ -1,9 +1,13 @@
 import connection from '../config/database.js';
 
-export const createOrder = (customerId) => {
+export const createOrder = (customerId, items) => {
     return new Promise((resolve, reject) => {
-        const query = 'INSERT INTO orders (customer_id, total_amount) VALUES (?, 0.00)';
-        connection.query(query, [customerId], (err, result) => {
+        // Calculate initial total_amount from items
+        const totalAmount = items.reduce((sum, item) => 
+            sum + (parseFloat(item.price) * parseInt(item.quantity)), 0);
+
+        const query = 'INSERT INTO orders (customer_id, total_amount) VALUES (?, ?)';
+        connection.query(query, [customerId, totalAmount], (err, result) => {
             if (err) {
                 return reject(err);
             }
