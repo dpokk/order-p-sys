@@ -1,5 +1,3 @@
-// src/pages/OrderDetails.jsx
-
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getOrderDetails, cancelOrder } from "../services/orderService";
@@ -40,44 +38,47 @@ const OrderDetails = () => {
     }
   };
 
-  if (loading) return <div className="p-6">Loading...</div>;
-  if (!order) return <div className="p-6">Order not found</div>;
+  if (loading) return <div className="p-6 text-lg text-gray-600">Loading...</div>;
+  if (!order) return <div className="p-6 text-lg text-red-500">Order not found</div>;
 
   return (
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-[#2f27ce]">Order Details</h1>
-        <div className="space-x-4">
+    <div className="p-6 space-y-6">
+      {/* Header */}
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold text-[#2f27ce] tracking-tight">Order Details</h1>
+        <div className="space-x-2">
           {order.status === 'placed' && (
             <button
               onClick={handleCancelOrder}
-              className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+              className="px-4 py-2 rounded-lg text-sm font-medium bg-red-600 text-white hover:bg-red-700 transition-colors"
             >
               Cancel Order
             </button>
           )}
           <button
             onClick={() => navigate('/orders')}
-            className="px-4 py-2 bg-[#2f27ce] text-white rounded hover:bg-[#433bff]"
+            className="px-4 py-2 rounded-lg text-sm font-medium bg-[#2f27ce] text-white hover:bg-[#433bff] transition-colors"
           >
             Back to Orders
           </button>
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow p-6 mb-6">
-        <h2 className="text-lg font-semibold mb-4">Order Information</h2>
-        <div className="grid grid-cols-2 gap-4">
+      {/* Order Information */}
+      <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">Order Information</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8 text-gray-700 text-sm">
           <div>
             <p><span className="font-medium">Order ID:</span> {order.order_id}</p>
             <p><span className="font-medium">Date:</span> {new Date(order.order_date).toLocaleString()}</p>
           </div>
           <div>
-            <p><span className="font-medium">Status:</span> 
-              <span className={`ml-2 px-2 py-1 rounded text-sm ${
+            <p className="flex items-center gap-2">
+              <span className="font-medium">Status:</span>
+              <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
                 order.status === 'placed' 
-                  ? 'bg-green-100 text-green-800' 
-                  : 'bg-red-100 text-red-800'
+                  ? 'bg-green-100 text-green-700'
+                  : 'bg-red-100 text-red-700'
               }`}>
                 {order.status.toUpperCase()}
               </span>
@@ -87,24 +88,25 @@ const OrderDetails = () => {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-lg font-semibold mb-4">Order Items</h2>
-        <table className="w-full">
-          <thead>
-            <tr className="border-b">
-              <th className="text-left py-2">Product</th>
-              <th className="text-right py-2">Price</th>
-              <th className="text-right py-2">Quantity</th>
-              <th className="text-right py-2">Total</th>
+      {/* Order Items Table */}
+      <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 overflow-auto">
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">Order Items</h2>
+        <table className="min-w-full text-sm text-left text-gray-700">
+          <thead className="text-xs uppercase text-gray-500 border-b">
+            <tr>
+              <th className="py-3">Product</th>
+              <th className="py-3 text-right">Price</th>
+              <th className="py-3 text-right">Quantity</th>
+              <th className="py-3 text-right">Total</th>
             </tr>
           </thead>
           <tbody>
             {items.map((item) => (
-              <tr key={item.order_item_id} className="border-b">
-                <td className="py-2">{item.product_name}</td>
-                <td className="text-right py-2">₹{item.price}</td>
-                <td className="text-right py-2">{item.quantity}</td>
-                <td className="text-right py-2">₹{item.price * item.quantity}</td>
+              <tr key={item.order_item_id} className="border-b hover:bg-gray-50 transition-colors">
+                <td className="py-3">{item.product_name}</td>
+                <td className="py-3 text-right">₹{item.price}</td>
+                <td className="py-3 text-right">{item.quantity}</td>
+                <td className="py-3 text-right">₹{item.price * item.quantity}</td>
               </tr>
             ))}
           </tbody>
