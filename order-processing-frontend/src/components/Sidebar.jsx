@@ -60,10 +60,10 @@ const Sidebar = ({ isOpen, onClose }) => {
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-border">
           <div className="flex items-center gap-3 px-4 py-3 hover:bg-stone-200 transition-colors rounded-lg">
             <div className="h-10 w-10 rounded-full bg-gray-300 text-white flex items-center justify-center">
-              <span className="text-sm font-medium">JD</span>
+              <span className="text-sm font-medium">UD</span>
             </div>
             <div className=" ">
-              <p className="text-sm font-medium text-text">John Doe</p>
+              <p className="text-sm font-medium text-text">UD Solutions Ltd.</p>
               <p className="text-xs text-text-light">Admin</p>
             </div>
           </div>
