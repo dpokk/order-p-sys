@@ -1,4 +1,5 @@
 import { Menu } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Navbar = ({ onToggleSidebar }) => {
   return (
@@ -11,7 +12,9 @@ const Navbar = ({ onToggleSidebar }) => {
           >
             <Menu className="w-6 h-6" />
           </button>
-          <h1 className="text-2xl pl-6 font-semibold">ORDER PROCESSING SYSTEM</h1>
+          <Link to="/orders">
+            <h1 className="text-2xl pl-6 font-semibold">ORDER PROCESSING SYSTEM</h1>
+          </Link>
         </div>
       </div>
     </nav>

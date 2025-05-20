@@ -39,17 +39,14 @@ const Sidebar = ({ isOpen, onClose }) => {
             <NavLink
               key={item.path}
               to={item.path}
-              style={({ isActive }) => ({
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.75rem',
-                padding: '0.75rem 1rem',
-                fontSize: '0.875rem',
-                fontWeight: 500,
-                borderRadius: '0.5rem',
-                backgroundColor: isActive ? '#dedcff' : 'white',
-                color: isActive ? '#1e293b' : '#64748b'
-              })}
+              className={({ isActive }) =>
+                `
+                  flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors
+                  ${isActive 
+                    ? 'bg-[#dedcff] text-slate-900 pointer-events-none' // disables hover effect
+                    : 'bg-white text-slate-500 hover:bg-[#dedcff]/50 hover:text-slate-900'}
+                `
+              }
             >
               <item.icon className="w-5 h-5" />
               {item.label}
@@ -57,12 +54,15 @@ const Sidebar = ({ isOpen, onClose }) => {
           ))}
         </nav>
 
+
+
+
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-border">
-          <div className="flex items-center gap-3 px-4 py-3">
+          <div className="flex items-center gap-3 px-4 py-3 hover:bg-stone-200 transition-colors rounded-lg">
             <div className="h-10 w-10 rounded-full bg-gray-300 text-white flex items-center justify-center">
               <span className="text-sm font-medium">JD</span>
             </div>
-            <div>
+            <div className=" ">
               <p className="text-sm font-medium text-text">John Doe</p>
               <p className="text-xs text-text-light">Admin</p>
             </div>
