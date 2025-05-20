@@ -67,14 +67,14 @@ const CustomerPage = () => {
     { header: 'Name', accessor: 'name' },
     { header: 'Email', accessor: 'email' },
     { header: 'Phone', accessor: 'phone' },
-    { header: 'Created At', accessor: 'created_at', render: (value) => formatDate(value) }
+    // { header: 'Created At', accessor: 'created_at', render: (value) => formatDate(value) }
   ];
 
   const actions = [
     {
       label: 'View Orders',
       onClick: handleViewHistory,
-      className: 'text-sm font-medium px-2 py-1 rounded bg-[#2f27ce] text-white hover:bg-[#433bff] transition-colors whitespace-nowrap'
+      className: 'text-sm font-medium px-2 py-2 rounded bg-[#2f27ce] text-white rounded hover:bg-[#433bff] transition-colors whitespace-nowrap'
     },
     {
       label: 'Edit',
@@ -94,12 +94,11 @@ const CustomerPage = () => {
         <h1 className="text-xl font-semibold">CUSTOMER MANAGEMENT</h1>
         <button
           onClick={handleAddClick}
-          className="px-4 py-2 bg-[#2f27ce] text-white rounded hover:bg-[#433bff] transition-colors"
-        >
+          className="px-4 py-2 bg-[#2f27ce] text-white rounded hover:bg-[#433bff] transition-colors">
           + Add Customer
         </button>
       </div>
-      <div className="px-2 py-6">
+      <div className="px-6 py-6">
         <Table columns={columns} data={customers} actions={actions} />
       </div>
       {isModalOpen && (
